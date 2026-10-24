@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { 
   Shield, Lock, CheckCircle2, RefreshCw, AlertCircle, Save, Tv, Globe, ListPlus, 
   Trash2, Radio, Calendar, Sparkles, Sliders, Users, Flag, Layers, FileText, Plus,
-  BarChart3, Edit3, Eye, Zap, Flame, UserCheck, Play
+  BarChart3, Edit3, Eye, Zap, Flame, UserCheck, Play, Landmark, Building2, Crown,
+  Swords, Target, Clock
 } from 'lucide-react';
-import { AdminConfig, NationalStats, StateData, CandidateProfile, LiveUpdate, SenateRace, HouseRace, GovRace } from '../types';
+import { AdminConfig, NationalStats, StateData, CandidateProfile, LiveUpdate, SenateRace, HouseRace, GovRace, TargetAudience } from '../types';
 
 interface AdminPortalProps {
   adminConfig: AdminConfig;
@@ -42,7 +43,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
   const [announcementQueue, setAnnouncementQueue] = useState<string[]>(adminConfig.announcementQueue || []);
   const [newAnnouncement, setNewAnnouncement] = useState('');
   const [graffitiEnabled, setGraffitiEnabled] = useState(!!adminConfig.graffitiEnabled);
-  const [targetAudience, setTargetAudience] = useState<'ALL' | 'SENATE' | 'HOUSE'>(adminConfig.targetAudience || 'ALL');
+  const [targetAudience, setTargetAudience] = useState<TargetAudience>(adminConfig.targetAudience || 'ALL');
   const [announcementDuration, setAnnouncementDuration] = useState<number>(adminConfig.announcementDuration || 20);
   const [audioNarrationEnabled, setAudioNarrationEnabled] = useState(adminConfig.audioNarrationEnabled !== false);
 
@@ -593,51 +594,144 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
-                  <label className="flex items-center gap-2 text-xs font-bold text-slate-800 cursor-pointer p-3 bg-white rounded-xl border border-slate-200">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+                  <label className="flex items-center gap-2 text-xs font-bold text-slate-800 cursor-pointer p-3 bg-white rounded-xl border border-slate-200 shadow-sm">
                     <input
                       type="checkbox"
                       checked={graffitiEnabled}
                       onChange={(e) => setGraffitiEnabled(e.target.checked)}
-                      className="rounded border-slate-300 text-purple-600 w-4 h-4"
+                      className="rounded border-slate-300 text-pink-600 w-4 h-4 focus:ring-pink-500"
                     />
-                    <span>Graffiti Canvas Overlay</span>
+                    <span>🎨 Spray Graffiti Canvas Overlay</span>
                   </label>
 
-                  <label className="flex items-center gap-2 text-xs font-bold text-slate-800 cursor-pointer p-3 bg-white rounded-xl border border-slate-200">
+                  <label className="flex items-center gap-2 text-xs font-bold text-slate-800 cursor-pointer p-3 bg-white rounded-xl border border-slate-200 shadow-sm">
                     <input
                       type="checkbox"
                       checked={audioNarrationEnabled}
                       onChange={(e) => setAudioNarrationEnabled(e.target.checked)}
-                      className="rounded border-slate-300 text-purple-600 w-4 h-4"
+                      className="rounded border-slate-300 text-pink-600 w-4 h-4 focus:ring-pink-500"
                     />
-                    <span>Voice Narration</span>
+                    <span>🎙️ Automated Voice Narration</span>
                   </label>
+                </div>
+              </div>
 
-                  <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-600">Target Audience</label>
-                    <select
-                      value={targetAudience}
-                      onChange={(e) => setTargetAudience(e.target.value as any)}
-                      className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs focus:outline-none"
-                    >
-                      <option value="ALL">All Connected Users</option>
-                      <option value="SENATE">Senate Viewers Only</option>
-                      <option value="HOUSE">House Viewers Only</option>
-                    </select>
+              {/* Granular Audience Target Segment Selector */}
+              <div className="p-5 rounded-2xl bg-sky-50 border border-sky-200 space-y-4">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pb-3 border-b border-sky-200">
+                  <div>
+                    <h3 className="text-sm font-black text-sky-950 flex items-center gap-2">
+                      <Target className="w-4 h-4 text-pink-600" />
+                      <span>Audience Target Segment Configuration</span>
+                    </h3>
+                    <p className="text-xs text-sky-800">Select which user segment receives live on-screen broadcasts and audio announcements.</p>
                   </div>
+                  <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-pink-100 text-pink-700 border border-pink-200 shrink-0">
+                    Active: {targetAudience}
+                  </span>
+                </div>
 
-                  <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-600">Display Duration (Seconds)</label>
-                    <input
-                      type="number"
-                      min="5"
-                      max="120"
-                      value={announcementDuration}
-                      onChange={(e) => setAnnouncementDuration(Number(e.target.value))}
-                      className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs font-mono focus:outline-none"
-                    />
-                  </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {[
+                    {
+                      id: 'ALL' as TargetAudience,
+                      label: 'All Connected Visitors',
+                      reach: '100% Reach',
+                      badge: 'GLOBAL BROADCAST',
+                      description: 'Broadcasts live to all active site visitors across every tab and page.',
+                      icon: Users,
+                      activeClass: 'bg-slate-900 text-white border-slate-900 shadow-lg shadow-slate-300',
+                      badgeClass: 'bg-slate-800 text-slate-200'
+                    },
+                    {
+                      id: 'SENATE' as TargetAudience,
+                      label: 'Senate Race Viewers',
+                      reach: '38% Reach',
+                      badge: 'SENATE SEGMENT',
+                      description: 'Targeted exclusively to visitors viewing Class 2 Senate battlegrounds.',
+                      icon: Landmark,
+                      activeClass: 'bg-sky-600 text-white border-sky-600 shadow-lg shadow-sky-200',
+                      badgeClass: 'bg-sky-500 text-white'
+                    },
+                    {
+                      id: 'HOUSE' as TargetAudience,
+                      label: 'House Battlegrounds',
+                      reach: '28% Reach',
+                      badge: 'HOUSE SEGMENT',
+                      description: 'Targeted to viewers analyzing 435 House districts & key swing seats.',
+                      icon: Building2,
+                      activeClass: 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-200',
+                      badgeClass: 'bg-blue-500 text-white'
+                    },
+                    {
+                      id: 'GOVERNORS' as TargetAudience,
+                      label: 'Gubernatorial Viewers',
+                      reach: '22% Reach',
+                      badge: 'GOVERNOR SEGMENT',
+                      description: 'Delivers directly to users exploring 36 Governor contests & open seats.',
+                      icon: Crown,
+                      activeClass: 'bg-purple-600 text-white border-purple-600 shadow-lg shadow-purple-200',
+                      badgeClass: 'bg-purple-500 text-white'
+                    },
+                    {
+                      id: 'BATTLEGROUNDS' as TargetAudience,
+                      label: 'Swing Battlegrounds',
+                      reach: '18% Reach',
+                      badge: 'BATTLEGROUND SEGMENT',
+                      description: 'High-priority broadcast sent to viewers tracking competitive Tossup races.',
+                      icon: Swords,
+                      activeClass: 'bg-pink-600 text-white border-pink-600 shadow-lg shadow-pink-200',
+                      badgeClass: 'bg-pink-500 text-white'
+                    },
+                    {
+                      id: 'ELECTION_DESK' as TargetAudience,
+                      label: 'Election Counting Desk',
+                      reach: '15% Reach',
+                      badge: 'COUNTING DESK ONLY',
+                      description: 'Direct live alert restricted to visitors on the Election Day Live Count Desk.',
+                      icon: Flame,
+                      activeClass: 'bg-red-600 text-white border-red-600 shadow-lg shadow-red-200',
+                      badgeClass: 'bg-red-500 text-white'
+                    }
+                  ].map((seg) => {
+                    const IconComp = seg.icon;
+                    const isSelected = targetAudience === seg.id;
+                    return (
+                      <button
+                        key={seg.id}
+                        type="button"
+                        onClick={() => setTargetAudience(seg.id)}
+                        className={`p-4 rounded-2xl border-2 text-left transition-all relative flex flex-col justify-between cursor-pointer ${
+                          isSelected
+                            ? seg.activeClass
+                            : 'bg-white hover:bg-sky-50/50 border-slate-200 text-slate-800'
+                        }`}
+                      >
+                        <div>
+                          <div className="flex items-center justify-between gap-2 mb-2">
+                            <div className="flex items-center gap-2">
+                              <div className={`p-1.5 rounded-xl ${isSelected ? 'bg-white/20' : 'bg-slate-100 text-slate-700'}`}>
+                                <IconComp className="w-4 h-4" />
+                              </div>
+                              <span className="font-black text-xs">{seg.label}</span>
+                            </div>
+                            <span className={`px-2 py-0.5 rounded-full text-[9px] font-mono font-bold ${isSelected ? seg.badgeClass : 'bg-slate-100 text-slate-600'}`}>
+                              {seg.reach}
+                            </span>
+                          </div>
+                          <p className={`text-[11px] leading-snug font-medium ${isSelected ? 'text-white/90' : 'text-slate-600'}`}>
+                            {seg.description}
+                          </p>
+                        </div>
+
+                        <div className="mt-3 pt-2 border-t border-current/10 flex items-center justify-between text-[10px] font-bold">
+                          <span className="uppercase tracking-wider">{seg.badge}</span>
+                          {isSelected && <span className="font-extrabold flex items-center gap-1">✓ SELECTED</span>}
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -648,32 +742,100 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                     <Radio className="w-4 h-4 text-pink-600 animate-pulse" />
                     <span>Live Broadcast & Announcement Portal Manager</span>
                   </span>
-                  <span className="text-xs text-sky-700 font-semibold bg-sky-100 px-2.5 py-1 rounded-lg">
-                    Timer: {announcementDuration}s on-screen
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-pink-700 font-extrabold bg-pink-100 px-2.5 py-1 rounded-lg border border-pink-200">
+                      Target: {targetAudience}
+                    </span>
+                    <span className="text-xs text-sky-700 font-semibold bg-sky-100 px-2.5 py-1 rounded-lg">
+                      Timer: {announcementDuration}s on-screen
+                    </span>
+                  </div>
                 </h3>
 
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <input
-                    type="text"
-                    placeholder="Type broadcast text (will show on-screen for configured seconds)..."
-                    value={newAnnouncement}
-                    onChange={(e) => setNewAnnouncement(e.target.value)}
-                    className="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-xs focus:outline-none font-medium"
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+                  <div className="md:col-span-2">
+                    <label className="text-[10px] font-bold text-slate-600 uppercase mb-1 block">Broadcast Announcement Text</label>
+                    <input
+                      type="text"
+                      placeholder="Type broadcast text (will show on-screen for configured seconds)..."
+                      value={newAnnouncement}
+                      onChange={(e) => setNewAnnouncement(e.target.value)}
+                      className="w-full px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-xs focus:outline-none font-medium shadow-sm"
+                    />
+                  </div>
+
+                  <div className="md:col-span-2 space-y-1">
+                    <div className="flex items-center justify-between">
+                      <label className="text-[10px] font-bold text-slate-600 uppercase flex items-center gap-1">
+                        <Clock className="w-3 h-3 text-pink-600" />
+                        <span>Editable Broadcast Display Timer (Seconds)</span>
+                      </label>
+                      <span className="text-xs font-mono font-black text-pink-600 bg-pink-50 px-2 py-0.5 rounded border border-pink-200">
+                        {announcementDuration}s Duration
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="range"
+                        min="5"
+                        max="120"
+                        step="1"
+                        value={announcementDuration}
+                        onChange={(e) => setAnnouncementDuration(Number(e.target.value))}
+                        className="flex-1 accent-pink-600 cursor-pointer"
+                      />
+                      <input
+                        type="number"
+                        min="5"
+                        max="120"
+                        value={announcementDuration}
+                        onChange={(e) => setAnnouncementDuration(Math.max(5, Math.min(120, Number(e.target.value))))}
+                        className="w-16 px-2 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-mono font-bold text-center focus:outline-none focus:border-pink-500"
+                      />
+                    </div>
+
+                    {/* Quick Duration Preset Chips */}
+                    <div className="flex flex-wrap gap-1 pt-1">
+                      {[5, 10, 15, 20, 30, 45, 60, 90, 120].map((sec) => (
+                        <button
+                          key={sec}
+                          type="button"
+                          onClick={() => setAnnouncementDuration(sec)}
+                          className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold transition-colors ${
+                            announcementDuration === sec
+                              ? 'bg-pink-600 text-white shadow-xs'
+                              : 'bg-white border border-slate-200 text-slate-700 hover:bg-sky-100'
+                          }`}
+                        >
+                          {sec}s
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between gap-2 pt-1">
+                  <div className="text-xs text-slate-600 font-semibold flex items-center gap-1.5">
+                    <Target className="w-3.5 h-3.5 text-pink-600" />
+                    <span>Will broadcast to: <strong className="text-pink-600 font-bold">{targetAudience}</strong> ({announcementDuration} seconds display)</span>
+                  </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <button type="button" onClick={() => { if (newAnnouncement.trim()) { setAnnouncementQueue([...announcementQueue, newAnnouncement.trim()]); setNewAnnouncement(''); } }} className="px-4 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl text-xs transition-colors">Queue</button>
-                    <button type="button" onClick={() => handleBroadcastNow()} className="px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-xs transition-colors shadow-md flex items-center gap-1.5">
+                    <button type="button" onClick={() => { if (newAnnouncement.trim()) { setAnnouncementQueue([...announcementQueue, newAnnouncement.trim()]); setNewAnnouncement(''); } }} className="px-4 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl text-xs transition-colors">Queue Announcement</button>
+                    <button type="button" onClick={() => handleBroadcastNow()} disabled={isBroadcasting} className="px-5 py-2.5 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-black rounded-xl text-xs transition-colors shadow-md flex items-center gap-1.5">
                       <Radio className="w-3.5 h-3.5 animate-pulse" />
-                      <span>Broadcast Live</span>
+                      <span>{isBroadcasting ? 'Broadcasting...' : 'Broadcast Live Now'}</span>
                     </button>
                   </div>
                 </div>
 
                 <div className="space-y-2 max-h-48 overflow-y-auto pt-2">
                   {announcementQueue.map((item, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-white border border-slate-200 text-xs gap-3">
-                      <span className="truncate text-slate-800 font-medium">{item}</span>
+                    <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-white border border-slate-200 text-xs gap-3 shadow-sm">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-pink-100 text-pink-800 shrink-0">{targetAudience}</span>
+                        <span className="truncate text-slate-800 font-medium">{item}</span>
+                      </div>
                       <div className="flex items-center gap-2 shrink-0">
                         <button type="button" onClick={() => handleBroadcastNow(item)} className="px-2.5 py-1 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg text-[10px]">Broadcast</button>
                         <button type="button" onClick={() => setAnnouncementQueue(announcementQueue.filter((_, i) => i !== idx))} className="p-1 rounded-lg text-slate-400 hover:text-red-600"><Trash2 className="w-3.5 h-3.5" /></button>

@@ -212,6 +212,18 @@ export default function App() {
     }
   };
 
+  const isAnnouncementTargetingCurrentTab = (announcement: typeof liveAnnouncement, tab: string): boolean => {
+    if (!announcement) return false;
+    const target = announcement.targetAudience || 'ALL';
+    if (target === 'ALL') return true;
+    if (target === 'SENATE') return tab === 'senate' || tab === 'candidates' || tab === 'home';
+    if (target === 'HOUSE') return tab === 'house' || tab === 'candidates' || tab === 'home';
+    if (target === 'GOVERNORS') return tab === 'governors' || tab === 'candidates' || tab === 'home';
+    if (target === 'ELECTION_DESK') return tab === 'electionday';
+    if (target === 'BATTLEGROUNDS') return tab === 'senate' || tab === 'governors' || tab === 'electionday' || tab === 'home';
+    return true;
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-sky-50 text-slate-900 transition-colors">
       <GraffitiOverlay
@@ -230,7 +242,7 @@ export default function App() {
         onToggleGraffiti={() => handleUpdateConfig({ graffitiEnabled: !adminConfig.graffitiEnabled })}
       />
 
-      {liveAnnouncement && (
+      {liveAnnouncement && isAnnouncementTargetingCurrentTab(liveAnnouncement, currentTab) && (
         <LiveAnnouncementBanner
           announcement={liveAnnouncement}
           onDismiss={() => setLiveAnnouncement(null)}

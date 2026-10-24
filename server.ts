@@ -202,7 +202,7 @@ let adminConfig = {
   postTimerHeadline: "2026 MIDTERM ELECTION DAY COUNTING DESK LIVE",
   postTimerMessage: "Real-time sync active from Associated Press & Google Civic API. Automatic updates every 15 seconds.",
   graffitiEnabled: false,
-  targetAudience: 'ALL' as 'ALL' | 'SENATE' | 'HOUSE',
+  targetAudience: 'ALL' as 'ALL' | 'SENATE' | 'HOUSE' | 'GOVERNORS' | 'BATTLEGROUNDS' | 'ELECTION_DESK',
   announcementDuration: 20, // Default 20 seconds display time
   graffitiAutoIntervalSeconds: 60, // Auto-spray every 60 seconds (1 minute)
   graffitiBurstDurationSeconds: 5 // Auto-spray burst duration
@@ -213,7 +213,7 @@ let latestAnnouncement = {
   text: "AP Elections live wire active. Showing authentic 2026 Senate Class 2 battlegrounds and 36 Gubernatorial races.",
   timestamp: new Date().toLocaleTimeString('en-US', { timeZone: 'America/New_York' }) + " EST",
   durationSeconds: 20,
-  targetAudience: 'ALL' as 'ALL' | 'SENATE' | 'HOUSE'
+  targetAudience: 'ALL' as 'ALL' | 'SENATE' | 'HOUSE' | 'GOVERNORS' | 'BATTLEGROUNDS' | 'ELECTION_DESK'
 };
 
 const app = express();

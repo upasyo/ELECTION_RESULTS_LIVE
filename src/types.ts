@@ -114,6 +114,8 @@ export interface NationalStats {
   electionDayDeskOpen?: boolean;
 }
 
+export type TargetAudience = 'ALL' | 'SENATE' | 'HOUSE' | 'GOVERNORS' | 'BATTLEGROUNDS' | 'ELECTION_DESK';
+
 export interface AdminConfig {
   headline: string;
   subheadline: string;
@@ -131,7 +133,7 @@ export interface AdminConfig {
   postTimerHeadline: string;
   postTimerMessage: string;
   graffitiEnabled: boolean;
-  targetAudience: 'ALL' | 'SENATE' | 'HOUSE';
+  targetAudience: TargetAudience;
   announcementDuration: number; // Duration in seconds (default 20)
   graffitiAutoIntervalSeconds: number; // Auto-spray interval in seconds (default 60)
   graffitiBurstDurationSeconds: number; // Auto-spray duration in seconds (default 5)
@@ -142,7 +144,7 @@ export interface LiveAnnouncement {
   text: string;
   timestamp: string;
   durationSeconds?: number;
-  targetAudience?: 'ALL' | 'SENATE' | 'HOUSE';
+  targetAudience?: TargetAudience;
 }
 
 export interface GeminiCandidateIntel {

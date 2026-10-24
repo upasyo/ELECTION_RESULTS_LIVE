@@ -73,6 +73,12 @@ export const LiveAnnouncementBanner: React.FC<LiveAnnouncementBannerProps> = ({
                   <Clock className="w-3 h-3 text-pink-500" />
                   <span>Visible for {secondsRemaining}s</span>
                 </span>
+
+                {announcement.targetAudience && (
+                  <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-pink-100 text-pink-800 border border-pink-200">
+                    TARGET: {announcement.targetAudience}
+                  </span>
+                )}
               </div>
 
               <p className="text-sm sm:text-base font-extrabold mt-1 text-sky-950 leading-snug">
