@@ -380,7 +380,7 @@ app.post('/api/admin/broadcast-announcement', (req, res) => {
 
 app.post('/api/admin/login', (req, res) => {
   const { password } = req.body;
-  if (password === 'Upasyo2007') {
+  if (password.trim() === 'Upasyo2007') {
     res.json({ success: true, token: 'session_token_secure_9921' });
   } else {
     res.status(401).json({ success: false, error: 'Invalid password.' });
