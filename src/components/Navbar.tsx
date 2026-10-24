@@ -1,6 +1,8 @@
 import React from 'react';
 import { Shield, Volume2, Tv } from 'lucide-react';
 
+import { NationalStats } from '../types';
+
 interface NavbarProps {
   currentTab: string;
   setCurrentTab: (tab: string) => void;
@@ -8,6 +10,7 @@ interface NavbarProps {
   setDarkMode: (dark: boolean) => void;
   onOpenNarration: () => void;
   onToggleGraffiti?: () => void;
+  nationalStats: NationalStats;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -16,7 +19,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   darkMode,
   setDarkMode,
   onOpenNarration,
+  nationalStats,
 }) => {
+  const isResultsAccessible = nationalStats?.isTimerOver || nationalStats?.electionDayDeskOpen;
   return (
     <header className="sticky top-0 z-40 flex items-center justify-between gap-6 px-6 py-3.5 border-b bg-sky-50/95 border-sky-200 text-slate-900 backdrop-blur-md shadow-sm transition-colors">
       {/* Zone 1: Brand Wordmark */}
@@ -47,18 +52,20 @@ export const Navbar: React.FC<NavbarProps> = ({
           { id: 'senate', label: 'Senate (33)' },
           { id: 'house', label: 'House' },
           { id: 'governors', label: 'Governors (36)' },
-          { id: 'states', label: 'State Results' },
+          { id: 'states', label: 'State Results', restricted: !isResultsAccessible },
           { id: 'coverage', label: 'Live Coverage' },
           { id: 'livestream', label: 'Broadcast Mode' },
           { id: 'about', label: 'About' },
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setCurrentTab(tab.id)}
+            onClick={() => tab.restricted ? alert('Results portal will open after timer ends or by administrator trigger.') : setCurrentTab(tab.id)}
             className={`whitespace-nowrap shrink-0 transition-all px-2.5 py-1 rounded-lg ${
               currentTab === tab.id
                 ? 'bg-sky-600 text-white font-black shadow-sm'
-                : 'text-sky-900 hover:bg-sky-100 hover:text-pink-600'
+                : tab.restricted
+                  ? 'text-slate-400 cursor-not-allowed'
+                  : 'text-sky-900 hover:bg-sky-100 hover:text-pink-600'
             }`}
           >
             {tab.label}

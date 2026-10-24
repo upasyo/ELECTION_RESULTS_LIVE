@@ -240,6 +240,7 @@ export default function App() {
         setDarkMode={() => {}}
         onOpenNarration={() => setIsNarrationOpen(true)}
         onToggleGraffiti={() => handleUpdateConfig({ graffitiEnabled: !adminConfig.graffitiEnabled })}
+        nationalStats={nationalStats}
       />
 
       {liveAnnouncement && isAnnouncementTargetingCurrentTab(liveAnnouncement, currentTab) && (
